@@ -6,9 +6,12 @@ import { withBase } from '../lib/url';
 interface Props {
   project: CollectionEntry<'projects'>;
   large?: boolean;
+  // Heading level, so the card fits the outline of the page it sits on.
+  headingLevel?: 2 | 3;
 }
 
-const { project, large = false } = Astro.props;
+const { project, large = false, headingLevel = 3 } = Astro.props;
+const Heading = `h${headingLevel}` as 'h2' | 'h3';
 const { title, summary, year, role, tech, cover, coverAlt } = project.data;
 ---
 
@@ -24,7 +27,7 @@ const { title, summary, year, role, tech, cover, coverAlt } = project.data;
   </a>
   <div class="body">
     <p class="label">{year} · {role}</p>
-    <h3><a class="title" href={withBase(`/projects/${project.id}`)}>{title} <span class="arrow" aria-hidden="true">→</span></a></h3>
+    <Heading class="heading"><a class="title" href={withBase(`/projects/${project.id}`)}>{title} <span class="arrow" aria-hidden="true">→</span></a></Heading>
     <p class="summary">{summary}</p>
     <ul class="chips">{tech.map((t) => <li>{t}</li>)}</ul>
   </div>
@@ -90,7 +93,13 @@ const { title, summary, year, role, tech, cover, coverAlt } = project.data;
     align-content: center;
   }
 
-  .large h3 {
+  .heading {
+    font-size: 22px;
+    letter-spacing: -0.5px;
+    line-height: 1.2;
+  }
+
+  .large .heading {
     font-size: 30px;
   }
 

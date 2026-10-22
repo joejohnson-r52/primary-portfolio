@@ -13,11 +13,56 @@ import { withBase } from '../lib/url';
 interface Props {
   title?: string;
   description?: string;
+  // Root-relative path or absolute URL of the social preview image.
+  image?: string;
+  imageAlt?: string;
+  type?: 'website' | 'article';
+  noindex?: boolean;
+  // Extra JSON-LD nodes for this page, merged into the site-wide graph.
+  schema?: Record<string, unknown>[];
 }
 
-const { title, description = site.description } = Astro.props;
-const pageTitle = title ? `${title} · ${site.fullName}` : `${site.fullName} · ${site.tagline}`;
-const canonical = new URL(Astro.url.pathname, Astro.site);
+const {
+  title,
+  description = site.description,
+  image = site.ogImage,
+  imageAlt = site.ogImageAlt,
+  type = 'website',
+  noindex = false,
+  schema = [],
+} = Astro.props;
+const pageTitle = title ? `${title} · ${site.fullName}` : `${site.fullName} · Full-stack developer for web apps and APIs`;
+const canonical = new URL(Astro.url.pathname, Astro.site).href;
+const absolute = (path: string) => new URL(path.startsWith('http') ? path : withBase(path), Astro.site).href;
+const imageUrl = absolute(image);
+const home = absolute('/');
+
+// Placeholder profile links (still marked TODO in site.ts) are left out.
+const sameAs = [site.links.github, site.links.linkedin].filter((url) => !url.includes('your-handle'));
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'Person',
+      '@id': `${home}#person`,
+      name: site.fullName,
+      jobTitle: 'Full-stack developer',
+      description: site.description,
+      url: home,
+      image: absolute(site.ogImage),
+      sameAs,
+    },
+    {
+      '@type': 'WebSite',
+      '@id': `${home}#website`,
+      name: site.fullName,
+      url: home,
+      inLanguage: 'en',
+      publisher: { '@id': `${home}#person` },
+    },
+    ...schema,
+  ],
+};
 ---
 
 <!doctype html>
@@ -27,13 +72,41 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{pageTitle}</title>
     <meta name="description" content={description} />
-    <link rel="canonical" href={canonical} />
+    <meta name="author" content={site.fullName} />
+    {noindex ? <meta name="robots" content="noindex, follow" /> : <link rel="canonical" href={canonical} />}
+
+    <link rel="icon" href={withBase('/favicon.ico')} sizes="32x32" />
     <link rel="icon" type="image/svg+xml" href={withBase('/favicon.svg')} />
-    <meta name="theme-color" content="#0B0C0E" />
-    <meta property="og:type" content="website" />
+    <link rel="apple-touch-icon" href={withBase('/apple-touch-icon.png')} />
+    <link rel="manifest" href={withBase('/manifest.webmanifest')} />
+    <link rel="sitemap" href={withBase('/sitemap.xml')} />
+    <meta name="theme-color" content={site.themeColor} />
+    <meta name="color-scheme" content="dark" />
+
+    <meta property="og:type" content={type} />
+    <meta property="og:site_name" content={site.fullName} />
+    <meta property="og:locale" content={site.locale} />
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={imageUrl} />
+    <meta property="og:image:alt" content={imageAlt} />
+    {
+      image === site.ogImage && (
+        <>
+          <meta property="og:image:type" content="image/png" />
+          <meta property="og:image:width" content="1200" />
+          <meta property="og:image:height" content="630" />
+        </>
+      )
+    }
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={imageUrl} />
+    <meta name="twitter:image:alt" content={imageAlt} />
+
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
     <meta name="generator" content={Astro.generator} />
   </head>
   <body>

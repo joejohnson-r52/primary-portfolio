@@ -13,10 +13,15 @@ export const site = {
   city: '[City]', // TODO
   email: 'hello@example.com', // TODO
   links: {
-    github: 'https://github.com/your-handle', // TODO
+    github: 'https://github.com/joejohnson-r52',
     linkedin: 'https://www.linkedin.com/in/your-handle', // TODO
     cv: withBase('/cv.pdf'), // TODO: add public/cv.pdf
   },
+  // Social preview defaults (public/og-default.png is 1200x630).
+  locale: 'en_US',
+  themeColor: '#0B0C0E',
+  ogImage: '/og-default.png',
+  ogImageAlt: 'Joe Johnson, full-stack developer. I build software that ships.',
 };
 
 export const nav = [
