@@ -1,6 +1,6 @@
 ---
 interface Props {
-  name: 'window' | 'server' | 'gauge';
+  name: 'window' | 'server' | 'gauge' | 'spark';
 }
 
 const { name } = Astro.props;
@@ -40,6 +40,14 @@ const { name } = Astro.props;
       <>
         <path d="M4 18a8 8 0 1 1 16 0" />
         <path d="M12 18l4-6" />
+      </>
+    )
+  }
+  {
+    name === 'spark' && (
+      <>
+        <path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z" />
+        <path d="M18 16v4M16 18h4" />
       </>
     )
   }
