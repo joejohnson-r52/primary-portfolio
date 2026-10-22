@@ -27,8 +27,8 @@ const others = projects.filter((p) => p !== flagship).slice(0, 2);
         <span class="line dim"><span>that ships.</span></span>
       </h1>
       <p class="intro">
-        I'm Joe, a full-stack developer. I design, build and look after web applications and APIs for teams that need
-        them to work.
+        I'm Joe, a full-stack developer. I build, develop and look after AI powered web applications and APIs for teams
+        that need them to work.
       </p>
       <div class="actions">
         <a class="btn btn-primary" href={withBase('/contact')}>Start a project <span class="arrow" aria-hidden="true">→</span></a>
@@ -41,9 +41,9 @@ const others = projects.filter((p) => p !== flagship).slice(0, 2);
     <div class="container">
       <div class="section-head">
         <p class="label">// what i do</p>
-        <h2 class="reveal">Three things, done properly.</h2>
+        <h2 class="reveal">Four things, done properly.</h2>
       </div>
-      <div class="grid-3">
+      <div class="grid-2">
         {
           services.map((s) => (
             <article class="card service reveal">
@@ -251,12 +251,6 @@ const others = projects.filter((p) => p !== flagship).slice(0, 2);
   }
 
   /* Shared grids */
-  .grid-3 {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-  }
-
   .grid-2 {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -386,7 +380,6 @@ const others = projects.filter((p) => p !== flagship).slice(0, 2);
   }
 
   @media (max-width: 900px) {
-    .grid-3,
     .grid-2,
     .about {
       grid-template-columns: 1fr;

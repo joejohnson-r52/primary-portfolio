@@ -9,7 +9,7 @@ export const site = {
   tagline: 'I build software that ships.',
   description:
     'Joe Johnson is a full-stack developer available for freelance projects. Web applications, APIs and the upkeep that keeps them fast.',
-  availability: 'Available for [MONTH] projects', // TODO
+  availability: 'Available',
   city: '[City]', // TODO
   email: 'hello@example.com', // TODO
   links: {
@@ -46,6 +46,11 @@ export const services = [
     icon: 'gauge',
     title: 'Performance & upkeep',
     body: 'Audits, speed fixes, dependency upgrades and the steady maintenance most projects skip.',
+  },
+  {
+    icon: 'spark',
+    title: 'AI integrations',
+    body: 'LLM features wired into real products. Assistants, search and automation with sensible guardrails and costs.',
   },
 ] as const;
 
