@@ -9,7 +9,7 @@ const projects = (await getCollection('projects', ({ data }) => !data.draft)).so
 );
 ---
 
-<Base title="Work" description="Selected projects by Joe Johnson.">
+<Base title="Work" description="Selected work by Joe Johnson: web applications, APIs and rescue projects, each one shipped and still running in production.">
   <PageHead
     label="// work"
     title="Selected work."
@@ -17,7 +17,7 @@ const projects = (await getCollection('projects', ({ data }) => !data.draft)).so
   />
   <section class="section divider">
     <div class="container grid">
-      {projects.map((p) => <ProjectCard project={p} />)}
+      {projects.map((p) => <ProjectCard project={p} headingLevel={2} />)}
     </div>
   </section>
 </Base>
