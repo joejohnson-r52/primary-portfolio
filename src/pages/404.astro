@@ -1,11 +1,12 @@
 ---
 import Base from '../layouts/Base.astro';
 import PageHead from '../components/PageHead.astro';
+import { withBase } from '../lib/url';
 ---
 
 <Base title="Not found">
   <PageHead label="// 404" title="Nothing here." intro="The page you're after has moved or never existed.">
-    <a class="btn btn-ghost home" href="/"><span aria-hidden="true">←</span> Back home</a>
+    <a class="btn btn-ghost home" href={withBase('/')}><span aria-hidden="true">←</span> Back home</a>
   </PageHead>
 </Base>
 

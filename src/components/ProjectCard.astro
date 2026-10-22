@@ -1,6 +1,7 @@
 ---
 import { Image } from 'astro:assets';
 import type { CollectionEntry } from 'astro:content';
+import { withBase } from '../lib/url';
 
 interface Props {
   project: CollectionEntry<'projects'>;
@@ -12,7 +13,7 @@ const { title, summary, year, role, tech, cover, coverAlt } = project.data;
 ---
 
 <article class:list={['card', 'project', 'reveal', { large }]}>
-  <a href={`/projects/${project.id}`} class="shot" tabindex="-1" aria-hidden="true">
+  <a href={withBase(`/projects/${project.id}`)} class="shot" tabindex="-1" aria-hidden="true">
     {
       cover ? (
         <Image src={cover} alt={coverAlt ?? ''} widths={[600, 1200]} sizes="(max-width: 900px) 100vw, 800px" />
@@ -23,7 +24,7 @@ const { title, summary, year, role, tech, cover, coverAlt } = project.data;
   </a>
   <div class="body">
     <p class="label">{year} · {role}</p>
-    <h3><a class="title" href={`/projects/${project.id}`}>{title} <span class="arrow" aria-hidden="true">→</span></a></h3>
+    <h3><a class="title" href={withBase(`/projects/${project.id}`)}>{title} <span class="arrow" aria-hidden="true">→</span></a></h3>
     <p class="summary">{summary}</p>
     <ul class="chips">{tech.map((t) => <li>{t}</li>)}</ul>
   </div>

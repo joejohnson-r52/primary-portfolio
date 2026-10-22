@@ -1,6 +1,7 @@
 ---
 import Logo from './Logo.astro';
 import { nav } from '../data/site';
+import { withBase } from '../lib/url';
 ---
 
 <header class="header">
@@ -18,7 +19,7 @@ import { nav } from '../data/site';
           ))
         }
         <li>
-          <a class="btn btn-ghost cta" href="/contact">Get in touch</a>
+          <a class="btn btn-ghost cta" href={withBase('/contact')}>Get in touch</a>
         </li>
       </ul>
     </nav>

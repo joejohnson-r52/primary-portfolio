@@ -1,5 +1,7 @@
 // Site-wide content. Replace the placeholders marked TODO.
 
+import { withBase } from '../lib/url';
+
 export const site = {
   name: 'joe johnson',
   fullName: 'Joe Johnson',
@@ -13,15 +15,15 @@ export const site = {
   links: {
     github: 'https://github.com/your-handle', // TODO
     linkedin: 'https://www.linkedin.com/in/your-handle', // TODO
-    cv: '/cv.pdf', // TODO: add public/cv.pdf
+    cv: withBase('/cv.pdf'), // TODO: add public/cv.pdf
   },
 };
 
 export const nav = [
-  { label: 'Services', href: '/#services' },
-  { label: 'Work', href: '/projects' },
-  { label: 'Experience', href: '/#experience' },
-  { label: 'About', href: '/about' },
+  { label: 'Services', href: withBase('/#services') },
+  { label: 'Work', href: withBase('/projects') },
+  { label: 'Experience', href: withBase('/#experience') },
+  { label: 'About', href: withBase('/about') },
 ];
 
 export const services = [

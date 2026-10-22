@@ -1,5 +1,6 @@
 ---
 import { site } from '../data/site';
+import { withBase } from '../lib/url';
 
 interface Props {
   showRole?: boolean;
@@ -8,7 +9,7 @@ interface Props {
 const { showRole = true } = Astro.props;
 ---
 
-<a href="/" class="lockup" aria-label={`${site.fullName}, home`}>
+<a href={withBase('/')} class="lockup" aria-label={`${site.fullName}, home`}>
   <span class="mark" aria-hidden="true">jj</span>
   <span class="words">
     <span class="wordmark">{site.name}<span class="cursor" aria-hidden="true"></span></span>
