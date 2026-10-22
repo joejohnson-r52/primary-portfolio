@@ -1,0 +1,16 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+---
+
+<Base title="Not found">
+  <PageHead label="// 404" title="Nothing here." intro="The page you're after has moved or never existed.">
+    <a class="btn btn-ghost home" href="/"><span aria-hidden="true">←</span> Back home</a>
+  </PageHead>
+</Base>
+
+<style>
+  .home {
+    margin-top: 32px;
+  }
+</style>

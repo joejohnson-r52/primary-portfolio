@@ -1,0 +1,43 @@
+---
+import { stack } from '../data/site';
+---
+
+<dl class="stack">
+  {
+    stack.map((row) => (
+      <div class="row">
+        <dt class="label">{row.area}</dt>
+        <dd>{row.items}</dd>
+      </div>
+    ))
+  }
+</dl>
+
+<style>
+  .stack {
+    margin: 0;
+    border-top: 1px solid var(--border);
+  }
+
+  .row {
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    gap: 16px;
+    padding-block: 18px;
+    border-bottom: 1px solid var(--border);
+    transition: transform 0.35s var(--ease);
+  }
+
+  .row:hover {
+    transform: translateX(8px);
+  }
+
+  dt {
+    padding-top: 2px;
+  }
+
+  dd {
+    margin: 0;
+    color: var(--text);
+  }
+</style>

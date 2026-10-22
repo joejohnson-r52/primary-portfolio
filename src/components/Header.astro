@@ -1,0 +1,84 @@
+---
+import Logo from './Logo.astro';
+import { nav } from '../data/site';
+---
+
+<header class="header">
+  <div class="container inner">
+    <Logo />
+    <nav aria-label="Main">
+      <ul>
+        {
+          nav.map((item) => (
+            <li class="nav-item">
+              <a class="link" href={item.href}>
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+        <li>
+          <a class="btn btn-ghost cta" href="/contact">Get in touch</a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<style>
+  .header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: color-mix(in srgb, var(--obsidian) 85%, transparent);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    animation: header-in 0.6s var(--ease) both;
+  }
+
+  .inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    min-height: 76px;
+  }
+
+  ul {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .nav-item a {
+    color: var(--text-body);
+    font-size: 15px;
+    padding-block: 4px;
+  }
+
+  .nav-item a:hover {
+    color: var(--text);
+  }
+
+  .cta {
+    min-height: 44px;
+    font-size: 15px;
+    padding: 0 18px;
+  }
+
+  @media (max-width: 760px) {
+    .nav-item {
+      display: none;
+    }
+  }
+
+  @keyframes header-in {
+    from {
+      opacity: 0;
+      transform: translateY(-12px);
+    }
+  }
+</style>

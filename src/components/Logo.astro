@@ -1,0 +1,59 @@
+---
+import { site } from '../data/site';
+
+interface Props {
+  showRole?: boolean;
+}
+
+const { showRole = true } = Astro.props;
+---
+
+<a href="/" class="lockup" aria-label={`${site.fullName}, home`}>
+  <span class="mark" aria-hidden="true">jj</span>
+  <span class="words">
+    <span class="wordmark">{site.name}<span class="cursor" aria-hidden="true"></span></span>
+    {showRole && <span class="role">{site.role}</span>}
+  </span>
+</a>
+
+<style>
+  .lockup {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    min-height: 44px;
+  }
+
+  .mark {
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 19%;
+    background: var(--mist);
+    color: var(--obsidian);
+    font-weight: 700;
+    font-size: 19px;
+    letter-spacing: -0.04em;
+    padding-bottom: 2px;
+  }
+
+  .words {
+    display: grid;
+    line-height: 1.1;
+  }
+
+  .wordmark {
+    color: var(--text);
+    font-weight: 700;
+    font-size: 19px;
+    letter-spacing: -0.04em;
+  }
+
+  .role {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text-muted);
+  }
+</style>

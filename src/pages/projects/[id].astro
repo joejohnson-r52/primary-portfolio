@@ -1,0 +1,125 @@
+---
+import type { GetStaticPaths } from 'astro';
+import { getCollection, render } from 'astro:content';
+import { Image } from 'astro:assets';
+import Base from '../../layouts/Base.astro';
+import PageHead from '../../components/PageHead.astro';
+
+export const getStaticPaths = (async () => {
+  const projects = await getCollection('projects', ({ data }) => !data.draft);
+  return projects.map((project) => ({ params: { id: project.id }, props: { project } }));
+}) satisfies GetStaticPaths;
+
+const { project } = Astro.props;
+const { title, summary, year, role, client, tech, cover, coverAlt, url, repo } = project.data;
+const { Content } = await render(project);
+---
+
+<Base title={title} description={summary}>
+  <PageHead label={`// work · ${year}`} title={title} intro={summary}>
+    <dl class="meta">
+      <div><dt class="label">Role</dt><dd>{role}</dd></div>
+      {client && <div><dt class="label">Client</dt><dd>{client}</dd></div>}
+      <div><dt class="label">Year</dt><dd>{year}</dd></div>
+    </dl>
+    <ul class="chips">{tech.map((t) => <li>{t}</li>)}</ul>
+    {
+      (url || repo) && (
+        <div class="actions">
+          {url && <a class="btn btn-primary" href={url}>Visit site <span class="arrow" aria-hidden="true">→</span></a>}
+          {repo && <a class="btn btn-ghost" href={repo}>Source</a>}
+        </div>
+      )
+    }
+  </PageHead>
+
+  <div class="container">
+    <div class="shot">
+      {cover ? <Image src={cover} alt={coverAlt ?? ''} widths={[800, 1600]} sizes="(max-width: 1248px) 100vw, 1200px" /> : <span class="mono">screenshot</span>}
+    </div>
+  </div>
+
+  <article class="section container prose">
+    <Content />
+  </article>
+
+  <div class="container back">
+    <a class="link" href="/projects"><span aria-hidden="true">←</span> All projects</a>
+  </div>
+</Base>
+
+<style>
+  .meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 40px;
+    margin: 32px 0 20px;
+  }
+
+  dd {
+    margin: 4px 0 0;
+    color: var(--text);
+  }
+
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 32px;
+  }
+
+  .shot {
+    display: grid;
+    place-items: center;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    background: var(--surface-3);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-card);
+    color: var(--text-dim);
+    font-size: 13px;
+  }
+
+  .shot :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .prose {
+    max-width: calc(720px + var(--gutter) * 2);
+    font-size: 18px;
+  }
+
+  .prose :global(h2) {
+    font-size: 28px;
+    letter-spacing: -0.8px;
+    margin: 48px 0 14px;
+  }
+
+  .prose :global(h2:first-child) {
+    margin-top: 0;
+  }
+
+  .prose :global(p + p) {
+    margin-top: 16px;
+  }
+
+  .prose :global(code) {
+    font-family: var(--font-mono);
+    font-size: 0.9em;
+    background: var(--surface-3);
+    padding: 2px 6px;
+    border-radius: 4px;
+  }
+
+  .back {
+    padding-bottom: 96px;
+  }
+
+  .back a {
+    display: inline-block;
+    padding-block: 10px;
+    color: var(--text);
+  }
+</style>

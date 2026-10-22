@@ -1,0 +1,63 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+import ExperienceList from '../components/ExperienceList.astro';
+import StackTable from '../components/StackTable.astro';
+import { site, about } from '../data/site';
+---
+
+<Base title="About" description={`About ${site.fullName}, ${site.role}.`}>
+  <PageHead label="// about" title="A little about me." />
+
+  <section class="section divider">
+    <div class="container about">
+      <div class="copy">
+        {about.paragraphs.map((p) => <p>{p}</p>)}
+      </div>
+      <div>
+        <p class="label stack-label">// stack</p>
+        <StackTable />
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <p class="label">// experience</p>
+        <h2>Where I've worked.</h2>
+      </div>
+      <ExperienceList />
+      <a class="btn btn-ghost cv" href={site.links.cv}>Download CV <span class="arrow" aria-hidden="true">→</span></a>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .about {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 64px;
+  }
+
+  .copy {
+    display: grid;
+    gap: 18px;
+    font-size: 19px;
+  }
+
+  .stack-label {
+    margin-bottom: 20px;
+  }
+
+  .cv {
+    margin-top: 40px;
+  }
+
+  @media (max-width: 900px) {
+    .about {
+      grid-template-columns: 1fr;
+      gap: 48px;
+    }
+  }
+</style>
