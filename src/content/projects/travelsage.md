@@ -2,8 +2,8 @@
 title: TravelSage
 summary: A collaborative trip planner where a group builds one shared itinerary, splits expenses, and keeps packing lists and notes in sync in real time.
 year: 2026
-role: Full-stack developer
-tech: []
+role: Lead developer
+tech: [Next.js, React, TypeScript, Supabase, PostgreSQL]
 cover: ../../assets/projects/travelsage-itinerary.png
 coverAlt: TravelSage itinerary view for a day trip to Whitby, showing a timeline of activities with times, categories and costs.
 flagship: true
