@@ -10,10 +10,10 @@ Node.js 22.23.4 or newer (Astro 7 requirement). Node 24 LTS recommended.
 
 | Command           | Action                                  |
 | ----------------- | --------------------------------------- |
-| `npm install`     | Install dependencies                    |
-| `npm run dev`     | Start the dev server at localhost:4321  |
-| `npm run build`   | Build the static site to `./dist/`      |
-| `npm run preview` | Preview the production build locally    |
+| `pnpm install`    | Install dependencies                    |
+| `pnpm dev`        | Start the dev server at localhost:4321  |
+| `pnpm build`      | Build the static site to `./dist/`      |
+| `pnpm preview`    | Preview the production build locally    |
 
 ## Structure
 
@@ -39,4 +39,4 @@ src/
 
 ## Deploying
 
-Works on Vercel or Netlify with no config: build command `npm run build`, output directory `dist`.
+Works on Vercel or Netlify with no config: build command `pnpm build`, output directory `dist`.
