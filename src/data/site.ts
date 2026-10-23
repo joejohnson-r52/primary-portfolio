@@ -62,10 +62,10 @@ export const steps = [
 ];
 
 export const stack = [
-  { area: 'Front end', items: 'TypeScript, React, Astro, CSS' },
-  { area: 'Back end', items: 'Node.js, Go, REST, GraphQL' },
-  { area: 'Data', items: 'PostgreSQL, Redis, SQLite' },
-  { area: 'Infra', items: 'AWS, Vercel, Docker, GitHub Actions' },
+  { area: 'Front end', items: 'TypeScript, React, Astro, CSS, Next.js' },
+  { area: 'Back end', items: 'Node.js, Laravel, Express, PHP, Java' },
+  { area: 'Data', items: 'PostgreSQL, Redis, SQLite, MongoDB, MySQL' },
+  { area: 'Infra', items: 'AWS, Vercel, Docker, GitHub Actions, Linode, Kubernetes' },
 ];
 
 export const about = {
