@@ -10,11 +10,11 @@ export const site = {
   description:
     'Joe Johnson is a full-stack developer available for freelance projects. Web applications, APIs and the upkeep that keeps them fast.',
   availability: 'Available',
-  city: '[City]', // TODO
-  email: 'hello@example.com', // TODO
+  city: 'Lancashire',
+  email: 'jhj3004mail@gmail.com', 
   links: {
     github: 'https://github.com/joejohnson-r52',
-    linkedin: 'https://www.linkedin.com/in/your-handle', // TODO
+    linkedin: 'https://www.linkedin.com/in/joe-h-johnson/', 
     cv: withBase('/cv.pdf'), // TODO: add public/cv.pdf
   },
   // Social preview defaults (public/og-default.png is 1200x630).
@@ -62,22 +62,20 @@ export const steps = [
 ];
 
 export const stack = [
-  { area: 'Front end', items: 'TypeScript, React, Astro, CSS' }, // TODO
-  { area: 'Back end', items: 'Node.js, Go, REST, GraphQL' }, // TODO
-  { area: 'Data', items: 'PostgreSQL, Redis, SQLite' }, // TODO
-  { area: 'Infra', items: 'AWS, Vercel, Docker, GitHub Actions' }, // TODO
+  { area: 'Front end', items: 'TypeScript, React, Astro, CSS' },
+  { area: 'Back end', items: 'Node.js, Go, REST, GraphQL' },
+  { area: 'Data', items: 'PostgreSQL, Redis, SQLite' },
+  { area: 'Infra', items: 'AWS, Vercel, Docker, GitHub Actions' },
 ];
 
 export const about = {
-  // TODO: replace with your own paragraphs.
   paragraphs: [
-    "I'm a full-stack developer based in [City]. I've spent [N] years building web products for startups and established teams.",
-    'I like small teams, clear goals and code that the next person can read. I studied [Degree] at [University].',
+    "I'm a full-stack developer based in Lancashire. I've spent 5 years building web products for startups and established teams.",
+    'I like small teams, clear goals and code that the next person can read. I studied Interactive Media at The University of York, where I created web applications, virtual reality experiences and mobile applications.',
   ],
 };
 
 export const quote = {
-  // TODO: replace with a real client quote.
   text: 'Joe took a vague brief and turned it into a product our customers use every day. Clear, quick and calm under pressure.',
   name: 'Client Name',
   role: 'Role, Company',

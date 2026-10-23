@@ -1,8 +1,8 @@
 ---
-role: Senior developer
-company: Company name
-start: '2020'
-end: '2023'
-summary: One line on what you owned and what changed because of it.
+role: Junior Developer
+company: Root Fifty-Two
+start: "2024"
+end: "2026"
+summary: Took leadership of multiple projects, accelerating team efficiencies
 order: 2
 ---

@@ -1,7 +1,7 @@
 ---
-role: Freelance full-stack developer
-company: Self-employed
-start: '2023'
-summary: Web apps, APIs and upkeep for small teams and startups.
+role: Developer
+company: Root Fifty-Two
+start: "2026"
+summary: Web apps, portals, websites and AI integrations
 order: 1
 ---
