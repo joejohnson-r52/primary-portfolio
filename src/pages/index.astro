@@ -299,8 +299,10 @@ const others = projects.filter((p) => p !== flagship).slice(0, 2);
     transition: transform 0.4s var(--ease);
   }
 
-  .service:hover .icon-tile {
-    transform: rotate(-8deg);
+  @media (hover: hover) {
+    .service:hover .icon-tile {
+      transform: rotate(-8deg);
+    }
   }
 
   .service p {

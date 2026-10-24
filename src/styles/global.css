@@ -160,10 +160,13 @@ img {
   color: var(--on-accent);
 }
 
-.btn-ghost:hover {
-  background: var(--mist);
-  border-color: var(--mist);
-  color: var(--obsidian);
+/* Hover-only motion is gated on (hover: hover) so taps on touch screens don't leave it stuck on. */
+@media (hover: hover) {
+  .btn-ghost:hover {
+    background: var(--mist);
+    border-color: var(--mist);
+    color: var(--obsidian);
+  }
 }
 
 .arrow {
@@ -171,8 +174,10 @@ img {
   transition: transform 0.3s var(--ease);
 }
 
-a:hover .arrow {
-  transform: translateX(5px);
+@media (hover: hover) {
+  a:hover .arrow {
+    transform: translateX(5px);
+  }
 }
 
 /* Growing underline links */
@@ -215,9 +220,11 @@ a:hover .arrow {
     border-color 0.4s var(--ease);
 }
 
-.card:hover {
-  transform: translateY(-6px);
-  border-color: var(--border-hover);
+@media (hover: hover) {
+  .card:hover {
+    transform: translateY(-6px);
+    border-color: var(--border-hover);
+  }
 }
 
 /* Sections */
