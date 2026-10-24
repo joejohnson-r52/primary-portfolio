@@ -39,6 +39,8 @@
 
 html {
   scroll-behavior: smooth;
+  /* In-page anchors (/#services, /#experience) land below the sticky header (76px + 1px border). */
+  scroll-padding-top: 77px;
   -webkit-text-size-adjust: 100%;
 }
 
