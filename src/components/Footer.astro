@@ -15,7 +15,7 @@ const year = new Date().getFullYear();
       <ul>
         <li><a class="link" href={site.links.github}>GitHub</a></li>
         <li><a class="link" href={site.links.linkedin}>LinkedIn</a></li>
-        <li><a class="link" href={site.links.cv}>CV</a></li>
+        {site.links.cv && <li><a class="link" href={site.links.cv}>CV</a></li>}
       </ul>
       <p class="label">© {year} {site.fullName}</p>
     </div>
