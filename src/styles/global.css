@@ -160,13 +160,20 @@ img {
   color: var(--on-accent);
 }
 
-/* Hover-only motion is gated on (hover: hover) so taps on touch screens don't leave it stuck on. */
+/* Hover-only motion is gated on (hover: hover) so taps on touch screens don't leave it stuck on.
+   Keyboard focus gets the same effect via :focus-visible, which never sticks after a tap. */
 @media (hover: hover) {
   .btn-ghost:hover {
     background: var(--mist);
     border-color: var(--mist);
     color: var(--obsidian);
   }
+}
+
+.btn-ghost:focus-visible {
+  background: var(--mist);
+  border-color: var(--mist);
+  color: var(--obsidian);
 }
 
 .arrow {
@@ -180,6 +187,10 @@ img {
   }
 }
 
+a:focus-visible .arrow {
+  transform: translateX(5px);
+}
+
 /* Growing underline links */
 .link {
   text-decoration: none;
@@ -187,7 +198,8 @@ img {
   transition: background-size 0.35s var(--ease);
 }
 
-.link:hover {
+.link:hover,
+.link:focus-visible {
   background-size: 100% 1px;
 }
 
@@ -225,6 +237,13 @@ img {
     transform: translateY(-6px);
     border-color: var(--border-hover);
   }
+}
+
+/* Cards that are links, and cards holding a focused link (project cards). */
+.card:focus-visible,
+.card:has(:focus-visible) {
+  transform: translateY(-6px);
+  border-color: var(--border-hover);
 }
 
 /* Sections */

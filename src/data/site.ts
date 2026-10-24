@@ -79,8 +79,12 @@ export const about = {
   ],
 };
 
+// TODO: replace with a real client quote, name and role. The "Kind words" section stays hidden
+// while the name is still the placeholder, so the live site never shows a made-up testimonial.
 export const quote = {
   text: 'Joe took a vague brief and turned it into a product our customers use every day. Clear, quick and calm under pressure.',
   name: 'Client Name',
   role: 'Role, Company',
 };
+
+export const hasQuote = quote.name !== 'Client Name';

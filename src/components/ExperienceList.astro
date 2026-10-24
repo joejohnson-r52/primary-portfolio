@@ -39,8 +39,10 @@ const experience = (await getCollection('experience')).sort((a, b) => a.data.ord
     transition: transform 0.35s var(--ease);
   }
 
-  .row:hover {
-    transform: translateX(8px);
+  @media (hover: hover) {
+    .row:hover {
+      transform: translateX(8px);
+    }
   }
 
   .dates {

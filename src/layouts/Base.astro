@@ -5,9 +5,10 @@ import '@fontsource/space-grotesk/700.css';
 import '@fontsource/jetbrains-mono/400.css';
 import '@fontsource/jetbrains-mono/500.css';
 import '../styles/global.css';
+import { getCollection } from 'astro:content';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
-import { site } from '../data/site';
+import { site, stack } from '../data/site';
 import { withBase } from '../lib/url';
 
 interface Props {
@@ -39,6 +40,12 @@ const home = absolute('/');
 
 // Placeholder profile links (still marked TODO in site.ts) are left out.
 const sameAs = [site.links.github, site.links.linkedin].filter((url) => !url.includes('your-handle'));
+// Person details for search engines, taken from the experience collection and the stack table.
+const experience = await getCollection('experience');
+const worksFor = [...new Set(experience.filter((e) => e.data.end === 'Present').map((e) => e.data.company))];
+const alumniOf = [...new Set(experience.filter((e) => e.data.role === 'Student').map((e) => e.data.company))];
+const knowsAbout = stack.flatMap((row) => row.items.split(',').map((item) => item.trim()));
+
 const jsonLd = {
   '@context': 'https://schema.org',
   '@graph': [
@@ -50,6 +57,11 @@ const jsonLd = {
       description: site.description,
       url: home,
       image: absolute(site.ogImage),
+      email: `mailto:${site.email}`,
+      address: { '@type': 'PostalAddress', addressRegion: site.city, addressCountry: 'GB' },
+      worksFor: worksFor.map((name) => ({ '@type': 'Organization', name })),
+      alumniOf: alumniOf.map((name) => ({ '@type': 'CollegeOrUniversity', name })),
+      knowsAbout,
       sameAs,
     },
     {

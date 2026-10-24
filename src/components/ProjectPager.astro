@@ -67,6 +67,10 @@ const { prev, next } = Astro.props;
     }
   }
 
+  .prev:focus-visible .arrow {
+    transform: translateX(-5px);
+  }
+
   @media (max-width: 560px) {
     .pager {
       grid-template-columns: 1fr;
