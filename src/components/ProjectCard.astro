@@ -76,9 +76,11 @@ const { title, summary, year, role, tech, cover, coverAlt } = project.data;
     font-size: 13px;
   }
 
-  .large:hover .shot :global(img),
-  .large:hover .placeholder {
-    transform: scale(1.035);
+  @media (hover: hover) {
+    .large:hover .shot :global(img),
+    .large:hover .placeholder {
+      transform: scale(1.035);
+    }
   }
 
   .body {
