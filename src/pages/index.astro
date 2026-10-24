@@ -5,7 +5,7 @@ import Icon from '../components/Icon.astro';
 import ProjectCard from '../components/ProjectCard.astro';
 import ExperienceList from '../components/ExperienceList.astro';
 import StackTable from '../components/StackTable.astro';
-import { site, services, steps, about, quote } from '../data/site';
+import { site, services, steps, about, quote, hasQuote } from '../data/site';
 import { withBase } from '../lib/url';
 
 const projects = (await getCollection('projects', ({ data }) => !data.draft)).sort(
@@ -130,18 +130,22 @@ const others = projects.filter((p) => p !== flagship).slice(0, 2);
     </div>
   </section>
 
-  <section class="section" id="kind-words">
-    <div class="container">
-      <figure class="quote reveal">
-        <p class="label">// kind words</p>
-        <blockquote>“{quote.text}”</blockquote>
-        <figcaption>
-          <span class="name">{quote.name}</span>
-          <span class="label">{quote.role}</span>
-        </figcaption>
-      </figure>
-    </div>
-  </section>
+  {
+    hasQuote && (
+      <section class="section" id="kind-words">
+        <div class="container">
+          <figure class="quote reveal">
+            <p class="label">// kind words</p>
+            <blockquote>“{quote.text}”</blockquote>
+            <figcaption>
+              <span class="name">{quote.name}</span>
+              <span class="label">{quote.role}</span>
+            </figcaption>
+          </figure>
+        </div>
+      </section>
+    )
+  }
 </Base>
 
 <style>
