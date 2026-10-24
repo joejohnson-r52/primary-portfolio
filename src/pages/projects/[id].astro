@@ -103,7 +103,8 @@ const schema = [
     background: var(--surface-3);
     border: 1px solid var(--border);
     border-radius: var(--radius-card);
-    color: var(--text-dim);
+    /* --text-muted, not --text-dim: small text needs 4.5:1 contrast (WCAG AA). */
+    color: var(--text-muted);
     font-size: 13px;
   }
 
