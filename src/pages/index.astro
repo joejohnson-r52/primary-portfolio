@@ -102,7 +102,13 @@ const others = projects.filter((p) => p !== flagship).slice(0, 2);
           <p class="label">// experience</p>
           <h2 class="reveal">Where I've worked.</h2>
         </div>
-        <a class="link more" href={site.links.cv}>Full CV <span class="arrow" aria-hidden="true">→</span></a>
+        {
+          site.links.cv && (
+            <a class="link more" href={site.links.cv}>
+              Full CV <span class="arrow" aria-hidden="true">→</span>
+            </a>
+          )
+        }
       </div>
       <ExperienceList />
     </div>

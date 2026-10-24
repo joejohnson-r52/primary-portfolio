@@ -1,6 +1,10 @@
 // Site-wide content. Replace the placeholders marked TODO.
 
+import { existsSync } from 'node:fs';
 import { withBase } from '../lib/url';
+
+// The CV links only render once the file exists, so the live site never links to a 404.
+const hasCv = existsSync('public/cv.pdf');
 
 export const site = {
   name: 'joe johnson',
@@ -15,7 +19,7 @@ export const site = {
   links: {
     github: 'https://github.com/joejohnson-r52',
     linkedin: 'https://www.linkedin.com/in/joe-h-johnson/', 
-    cv: withBase('/cv.pdf'), // TODO: add public/cv.pdf
+    cv: hasCv ? withBase('/cv.pdf') : undefined, // TODO: add public/cv.pdf
   },
   // Social preview defaults (public/og-default.png is 1200x630).
   locale: 'en_US',

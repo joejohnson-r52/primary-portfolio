@@ -28,7 +28,13 @@ import { site, about } from '../data/site';
         <h2>Where I've worked.</h2>
       </div>
       <ExperienceList />
-      <a class="btn btn-ghost cv" href={site.links.cv}>Download CV <span class="arrow" aria-hidden="true">→</span></a>
+      {
+        site.links.cv && (
+          <a class="btn btn-ghost cv" href={site.links.cv}>
+            Download CV <span class="arrow" aria-hidden="true">→</span>
+          </a>
+        )
+      }
     </div>
   </section>
 </Base>
