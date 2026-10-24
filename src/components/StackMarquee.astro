@@ -1,18 +1,89 @@
 ---
 import { stack } from '../data/site';
+import {
+  siAstro,
+  siCss,
+  siDocker,
+  siExpress,
+  siGithubactions,
+  siKubernetes,
+  siLaravel,
+  siMongodb,
+  siMysql,
+  siNextdotjs,
+  siNodedotjs,
+  siOpenjdk,
+  siPhp,
+  siPostgresql,
+  siReact,
+  siRedis,
+  siSqlite,
+  siTypescript,
+  siVercel,
+} from 'simple-icons';
 
 // Every technology from the stack table, as one scrolling strip.
 const items = [...new Set(stack.flatMap((row) => row.items.split(',').map((item) => item.trim())))];
+
+// Brand marks that simple-icons does not ship (trademark). Original shapes, not their logos.
+// The visible name next to each icon is the text search engines and the stack table use.
+const original = {
+  AWS: 'M6.2 16.8h11.2a3.4 3.4 0 0 0 .3-6.8 5.2 5.2 0 0 0-10-1.4 3.6 3.6 0 0 0-1.5 8.2z',
+  Linode:
+    'M4.5 4.2h15v3.6h-15zm0 5.2h15v3.6h-15zm0 5.2h15v3.6h-15zM7 5.4h1.5v1.2H7zm0 5.2h1.5v1.2H7zm0 5.2h1.5V17H7z',
+};
+
+const marks = {
+  TypeScript: siTypescript,
+  React: siReact,
+  Astro: siAstro,
+  CSS: siCss,
+  'Next.js': siNextdotjs,
+  'Node.js': siNodedotjs,
+  Laravel: siLaravel,
+  Express: siExpress,
+  PHP: siPhp,
+  Java: siOpenjdk,
+  PostgreSQL: siPostgresql,
+  Redis: siRedis,
+  SQLite: siSqlite,
+  MongoDB: siMongodb,
+  MySQL: siMysql,
+  AWS: { slug: 'aws', path: original.AWS },
+  Vercel: siVercel,
+  Docker: siDocker,
+  'GitHub Actions': siGithubactions,
+  Linode: { slug: 'linode', path: original.Linode },
+  Kubernetes: siKubernetes,
+};
+
+const fallback = { slug: 'mark', path: 'M12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10z' };
+
+const icons = items.map((name) => ({ name, ...(marks[name] ?? fallback) }));
 ---
 
-<!-- Decorative: the same list is in the stack table further down the page. -->
-<div class="marquee" aria-hidden="true">
+<!-- Decorative duplicate of the stack table. Icons are unnamed; the technology name is the text. -->
+<div class="marquee" aria-hidden="true" data-nosnippet>
+  <svg class="sprite">
+    {
+      icons.map(({ slug, path }) => (
+        <symbol id={`tech-${slug}`} viewBox="0 0 24 24">
+          <path d={path} />
+        </symbol>
+      ))
+    }
+  </svg>
   <div class="track">
     {
       [0, 1].map((copy) => (
         <ul class:list={['set', { copy: copy === 1 }]}>
-          {items.map((item) => (
-            <li>{item}</li>
+          {icons.map(({ name, slug }) => (
+            <li>
+              <svg class="icon" viewBox="0 0 24 24" width="18" height="18" focusable="false">
+                <use href={`#tech-${slug}`} fill="currentColor" />
+              </svg>
+              <span>{name}</span>
+            </li>
           ))}
         </ul>
       ))
@@ -21,7 +92,15 @@ const items = [...new Set(stack.flatMap((row) => row.items.split(',').map((item)
 </div>
 
 <style>
+  .sprite {
+    position: absolute;
+    width: 0;
+    height: 0;
+    overflow: hidden;
+  }
+
   .marquee {
+    position: relative;
     overflow: hidden;
     border-block: 1px solid var(--border);
     padding-block: 22px;
@@ -36,12 +115,6 @@ const items = [...new Set(stack.flatMap((row) => row.items.split(',').map((item)
     animation: scroll 45s linear infinite;
   }
 
-  @media (hover: hover) {
-    .marquee:hover .track {
-      animation-play-state: paused;
-    }
-  }
-
   .set {
     display: flex;
     flex-shrink: 0;
@@ -53,10 +126,16 @@ const items = [...new Set(stack.flatMap((row) => row.items.split(',').map((item)
   li {
     display: flex;
     align-items: center;
+    gap: 8px;
     font-family: var(--font-mono);
     font-size: 15px;
     color: var(--text-muted);
     white-space: nowrap;
+  }
+
+  .icon {
+    flex: none;
+    color: var(--text);
   }
 
   /* Accent dot between items (and after the last, so the loop seam matches). */
@@ -64,7 +143,7 @@ const items = [...new Set(stack.flatMap((row) => row.items.split(',').map((item)
     content: '';
     width: 5px;
     height: 5px;
-    margin-inline: 28px;
+    margin-inline: 22px;
     border-radius: 50%;
     background: var(--accent);
     opacity: 0.7;

@@ -44,6 +44,17 @@ html {
   -webkit-text-size-adjust: 100%;
 }
 
+/* The router scrolls during the fade. A smooth scroll fights that. */
+html[data-astro-transition] {
+  scroll-behavior: auto;
+}
+
+/* Shared project frames use the same curve and pace as the rest of the site. */
+::view-transition-group(*) {
+  animation-duration: 0.45s;
+  animation-timing-function: var(--ease);
+}
+
 body {
   margin: 0;
   background: var(--obsidian);

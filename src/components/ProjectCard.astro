@@ -13,10 +13,18 @@ interface Props {
 const { project, large = false, headingLevel = 3 } = Astro.props;
 const Heading = `h${headingLevel}` as 'h2' | 'h3';
 const { title, summary, year, role, tech, cover, coverAlt } = project.data;
+const frame = `work-${project.id}`;
 ---
 
 <article class:list={['card', 'project', 'reveal', { large }]}>
-  <a href={withBase(`/projects/${project.id}`)} class="shot" tabindex="-1" aria-hidden="true">
+  <a
+    href={withBase(`/projects/${project.id}`)}
+    class="shot"
+    tabindex="-1"
+    aria-hidden="true"
+    transition:name={frame}
+    transition:animate="initial"
+  >
     {
       cover ? (
         <Image src={cover} alt={coverAlt ?? ''} widths={[600, 1200]} sizes="(max-width: 900px) 100vw, 800px" />

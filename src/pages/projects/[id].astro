@@ -68,7 +68,7 @@ const schema = [
   </PageHead>
 
   <div class="container">
-    <div class="shot">
+    <div class="shot" transition:name={`work-${project.id}`} transition:animate="initial">
       {cover ? <Image src={cover} alt={coverAlt ?? ''} widths={[800, 1600]} sizes="(max-width: 1248px) 100vw, 1200px" /> : <span class="mono">screenshot</span>}
     </div>
   </div>

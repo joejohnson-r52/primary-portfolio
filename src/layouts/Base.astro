@@ -6,10 +6,24 @@ import '@fontsource/jetbrains-mono/400.css';
 import '@fontsource/jetbrains-mono/500.css';
 import '../styles/global.css';
 import { getCollection } from 'astro:content';
+import { ClientRouter } from 'astro:transitions';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import { site, stack } from '../data/site';
 import { withBase } from '../lib/url';
+
+// Same curve as --ease in global.css. Built-in fade() cannot take an easing.
+const ease = 'cubic-bezier(0.2, 0.7, 0.1, 1)';
+const fadeMain = {
+  forwards: {
+    old: { name: 'astroFadeOut', duration: '0.28s', easing: ease, fillMode: 'both' },
+    new: { name: 'astroFadeIn', duration: '0.4s', easing: ease, fillMode: 'both' },
+  },
+  backwards: {
+    old: { name: 'astroFadeOut', duration: '0.28s', easing: ease, fillMode: 'both' },
+    new: { name: 'astroFadeIn', duration: '0.4s', easing: ease, fillMode: 'both' },
+  },
+};
 
 interface Props {
   title?: string;
@@ -78,7 +92,7 @@ const jsonLd = {
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="en" transition:name="root" transition:animate="none">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -120,14 +134,21 @@ const jsonLd = {
 
     <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
     <meta name="generator" content={Astro.generator} />
+    <ClientRouter />
   </head>
   <body>
     <a class="skip sr-only" href="#main">Skip to content</a>
     <Header />
-    <main id="main">
+    <main id="main" transition:name="content" transition:animate={fadeMain}>
       <slot />
     </main>
     <Footer />
+    <script>
+      // Persisted nodes can restart CSS animations. Stop the header entrance after the first page.
+      document.addEventListener('astro:before-swap', () => {
+        document.querySelector('header')?.style.setProperty('animation', 'none');
+      });
+    </script>
   </body>
 </html>
 
