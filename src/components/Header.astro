@@ -13,11 +13,11 @@ const isCurrent = (href: string) => {
 };
 ---
 
-<header class="header">
+<header class="header" data-menu>
   <div class="container inner">
     <Logo />
     <nav aria-label="Main">
-      <ul>
+      <ul class="menu" id="site-menu">
         {
           nav.map((item) => (
             <li class="nav-item">
@@ -27,13 +27,47 @@ const isCurrent = (href: string) => {
             </li>
           ))
         }
-        <li>
-          <a class="btn btn-ghost cta" href={withBase('/contact')}>Get in touch</a>
-        </li>
       </ul>
+      <a class="btn btn-ghost cta" href={withBase('/contact')}>Get in touch</a>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-menu">
+        <span class="sr-only">Menu</span>
+        <span class="bars" aria-hidden="true"><span></span><span></span><span></span></span>
+      </button>
     </nav>
   </div>
 </header>
+
+<script>
+  const header = document.querySelector<HTMLElement>('[data-menu]');
+  const toggle = header?.querySelector<HTMLButtonElement>('.menu-toggle');
+  const mobile = window.matchMedia('(max-width: 760px)');
+
+  const setOpen = (open: boolean) => {
+    if (!header || !toggle) return;
+    header.toggleAttribute('data-open', open);
+    toggle.setAttribute('aria-expanded', String(open));
+  };
+
+  toggle?.addEventListener('click', () => setOpen(!header?.hasAttribute('data-open')));
+
+  // Close after following a link (the in-page anchors don't reload the page).
+  header?.querySelectorAll('.menu a').forEach((link) => link.addEventListener('click', () => setOpen(false)));
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && header?.hasAttribute('data-open')) {
+      setOpen(false);
+      toggle?.focus();
+    }
+  });
+
+  document.addEventListener('click', (event) => {
+    if (header?.hasAttribute('data-open') && !header.contains(event.target as Node)) setOpen(false);
+  });
+
+  mobile.addEventListener('change', (event) => {
+    if (!event.matches) setOpen(false);
+  });
+</script>
 
 <style>
   .header {
@@ -54,7 +88,13 @@ const isCurrent = (href: string) => {
     min-height: 76px;
   }
 
-  ul {
+  nav {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+  }
+
+  .menu {
     display: flex;
     align-items: center;
     gap: 28px;
@@ -78,11 +118,148 @@ const isCurrent = (href: string) => {
     min-height: 44px;
     font-size: 15px;
     padding: 0 18px;
+    white-space: nowrap;
+  }
+
+  .menu-toggle {
+    display: none;
   }
 
   @media (max-width: 760px) {
+    nav {
+      gap: 12px;
+    }
+
+    .menu-toggle {
+      display: grid;
+      place-items: center;
+      width: 44px;
+      height: 44px;
+      padding: 0;
+      border: 1px solid var(--border-strong);
+      border-radius: 999px;
+      background: transparent;
+      color: var(--text);
+      cursor: pointer;
+      transition: border-color 0.3s var(--ease);
+    }
+
+    .menu-toggle:hover {
+      border-color: var(--border-hover);
+    }
+
+    .bars {
+      display: grid;
+      gap: 4px;
+      width: 18px;
+    }
+
+    .bars span {
+      display: block;
+      height: 1.5px;
+      border-radius: 1px;
+      background: currentColor;
+      transition:
+        transform 0.35s var(--ease),
+        opacity 0.2s var(--ease);
+    }
+
+    [data-open] .bars span:nth-child(1) {
+      transform: translateY(5.5px) rotate(45deg);
+    }
+
+    [data-open] .bars span:nth-child(2) {
+      opacity: 0;
+    }
+
+    [data-open] .bars span:nth-child(3) {
+      transform: translateY(-5.5px) rotate(-45deg);
+    }
+
+    /* Dropdown panel under the header. Hidden with visibility so closed links leave the tab order. */
+    .menu {
+      position: absolute;
+      inset: 100% 0 auto 0;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 0;
+      padding: 8px var(--gutter) 20px;
+      background: var(--obsidian);
+      border-bottom: 1px solid var(--border);
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-8px);
+      clip-path: inset(0 0 100% 0);
+      transition:
+        opacity 0.3s var(--ease),
+        transform 0.4s var(--ease),
+        clip-path 0.4s var(--ease),
+        visibility 0s linear 0.4s;
+    }
+
+    [data-open] .menu {
+      opacity: 1;
+      visibility: visible;
+      transform: none;
+      clip-path: inset(0 0 0 0);
+      transition:
+        opacity 0.3s var(--ease),
+        transform 0.4s var(--ease),
+        clip-path 0.4s var(--ease),
+        visibility 0s;
+    }
+
     .nav-item {
-      display: none;
+      border-top: 1px solid var(--border);
+    }
+
+    .nav-item:first-child {
+      border-top: 0;
+    }
+
+    .nav-item a {
+      display: block;
+      padding-block: 14px;
+      font-size: 18px;
+      background: none;
+    }
+
+    /* Links settle in one after another as the panel opens. */
+    .nav-item {
+      opacity: 0;
+      transform: translateY(-6px);
+      transition:
+        opacity 0.3s var(--ease),
+        transform 0.4s var(--ease);
+    }
+
+    [data-open] .nav-item {
+      opacity: 1;
+      transform: none;
+    }
+
+    [data-open] .nav-item:nth-child(2) {
+      transition-delay: 40ms;
+    }
+
+    [data-open] .nav-item:nth-child(3) {
+      transition-delay: 80ms;
+    }
+
+    [data-open] .nav-item:nth-child(4) {
+      transition-delay: 120ms;
+    }
+  }
+
+  @media (max-width: 400px) {
+    .inner,
+    nav {
+      gap: 8px;
+    }
+
+    .cta {
+      padding: 0 12px;
+      font-size: 14px;
     }
   }
 
