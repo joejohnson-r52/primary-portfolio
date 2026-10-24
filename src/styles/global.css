@@ -28,6 +28,11 @@
 
   --ease: cubic-bezier(0.2, 0.7, 0.1, 1);
 
+  /* Soft radial “lights” layered over the obsidian base (accent + white). */
+  --glow-accent: color-mix(in srgb, var(--accent) 11%, transparent);
+  --glow-accent-soft: color-mix(in srgb, var(--accent) 6%, transparent);
+  --glow-white: color-mix(in srgb, var(--mist) 5%, transparent);
+
   color-scheme: dark;
 }
 
@@ -57,12 +62,51 @@ html[data-astro-transition] {
 
 body {
   margin: 0;
+  isolation: isolate;
   background: var(--obsidian);
   color: var(--text-body);
   font-family: var(--font-sans);
   font-size: 17px;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
+}
+
+/* Fixed wash + accent light pools (decorative, behind all pages). */
+body::before,
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: -1;
+}
+
+body::before {
+  z-index: -2;
+  background: linear-gradient(
+    168deg,
+    color-mix(in srgb, var(--surface-1) 92%, var(--accent) 8%) 0%,
+    var(--obsidian) 40%,
+    var(--obsidian) 100%
+  );
+}
+
+body::after {
+  background:
+    radial-gradient(ellipse 95% 88% at 50% -20%, var(--glow-accent), transparent 54%),
+    radial-gradient(ellipse 72% 68% at 96% 14%, var(--glow-accent-soft), transparent 52%),
+    radial-gradient(ellipse 82% 82% at 4% 40%, var(--glow-white), transparent 54%),
+    radial-gradient(ellipse 90% 84% at 50% 108%, var(--glow-accent-soft), transparent 52%);
+}
+
+@media (max-width: 720px) {
+  body::after {
+    background:
+      radial-gradient(ellipse 92% 86% at 50% -18%, var(--glow-accent), transparent 54%),
+      radial-gradient(ellipse 64% 60% at 100% 8%, var(--glow-accent-soft), transparent 52%),
+      radial-gradient(ellipse 72% 72% at 22% 38%, var(--glow-white), transparent 56%),
+      radial-gradient(ellipse 88% 82% at 50% 108%, var(--glow-accent-soft), transparent 52%);
+  }
 }
 
 h1,
@@ -168,9 +212,17 @@ img {
 }
 
 .btn-primary {
-  background: var(--accent);
-  border-color: var(--accent);
+  background: linear-gradient(
+    165deg,
+    color-mix(in srgb, var(--mist) 12%, var(--accent)) 0%,
+    var(--accent) 50%,
+    color-mix(in srgb, var(--obsidian) 6%, var(--accent)) 100%
+  );
+  border-color: color-mix(in srgb, var(--accent) 92%, var(--mist));
   color: var(--on-accent);
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb, var(--mist) 16%, transparent),
+    0 10px 32px -16px color-mix(in srgb, var(--accent) 38%, transparent);
 }
 
 /* Hover-only motion is gated on (hover: hover) so taps on touch screens don't leave it stuck on.
@@ -237,9 +289,15 @@ a:focus-visible .arrow {
 
 /* Cards */
 .card {
-  background: var(--surface-2);
+  background: linear-gradient(
+      168deg,
+      color-mix(in srgb, var(--accent) 4%, var(--surface-2)) 0%,
+      var(--surface-2) 36%
+    )
+    var(--surface-2);
   border: 1px solid var(--border);
   border-radius: var(--radius-card);
+  box-shadow: inset 0 1px 0 color-mix(in srgb, var(--mist) 3%, transparent);
   transition:
     transform 0.4s var(--ease),
     border-color 0.4s var(--ease);
@@ -257,6 +315,28 @@ a:focus-visible .arrow {
 .card:has(:focus-visible) {
   transform: translateY(-6px);
   border-color: var(--border-hover);
+}
+
+/* Local top light on hero-style blocks (homepage hero, inner page heads). */
+.spotlight {
+  position: relative;
+  isolation: isolate;
+}
+
+.spotlight::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse 88% 84% at 28% -6%,
+    color-mix(in srgb, var(--accent) 4%, transparent),
+    transparent 68%
+  );
+}
+
+.spotlight > .container {
+  position: relative;
 }
 
 /* Sections */

@@ -24,9 +24,29 @@ const year = new Date().getFullYear();
 
 <style>
   .footer {
-    background: var(--surface-2);
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(
+        180deg,
+        color-mix(in srgb, var(--accent) 4%, var(--surface-2)) 0%,
+        var(--surface-2) 22%
+      )
+      var(--surface-2);
     border-top: 1px solid var(--border);
     padding-block: var(--section-pad) 40px;
+  }
+
+  .footer::before {
+    content: '';
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: min(260px, 48%);
+    pointer-events: none;
+    background: radial-gradient(ellipse 100% 96% at 50% 0%, var(--glow-accent-soft), transparent 68%);
+  }
+
+  .footer .container {
+    position: relative;
   }
 
   h2 {
