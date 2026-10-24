@@ -5,6 +5,7 @@ import Icon from '../components/Icon.astro';
 import ProjectCard from '../components/ProjectCard.astro';
 import ExperienceList from '../components/ExperienceList.astro';
 import StackTable from '../components/StackTable.astro';
+import StackMarquee from '../components/StackMarquee.astro';
 import { site, services, steps, about, quote } from '../data/site';
 import { withBase } from '../lib/url';
 
@@ -36,6 +37,8 @@ const others = projects.filter((p) => p !== flagship).slice(0, 2);
       </div>
     </div>
   </section>
+
+  <StackMarquee />
 
   <section class="section" id="services">
     <div class="container">
