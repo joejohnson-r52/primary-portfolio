@@ -2,6 +2,15 @@
 import Logo from './Logo.astro';
 import { nav } from '../data/site';
 import { withBase } from '../lib/url';
+
+// Mark the nav link for the current page (and its sub-pages) with aria-current.
+// In-page anchors like /#services are skipped: they aren't separate pages.
+const path = Astro.url.pathname.replace(/\/$/, '');
+const isCurrent = (href: string) => {
+  if (href.includes('#')) return false;
+  const target = href.replace(/\/$/, '');
+  return path === target || path.startsWith(`${target}/`);
+};
 ---
 
 <header class="header">
@@ -12,7 +21,7 @@ import { withBase } from '../lib/url';
         {
           nav.map((item) => (
             <li class="nav-item">
-              <a class="link" href={item.href}>
+              <a class="link" href={item.href} aria-current={isCurrent(item.href) ? 'page' : undefined}>
                 {item.label}
               </a>
             </li>
@@ -60,7 +69,8 @@ import { withBase } from '../lib/url';
     padding-block: 4px;
   }
 
-  .nav-item a:hover {
+  .nav-item a:hover,
+  .nav-item a[aria-current='page'] {
     color: var(--text);
   }
 
