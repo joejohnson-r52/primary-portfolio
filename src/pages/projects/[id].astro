@@ -4,15 +4,22 @@ import { getCollection, render } from 'astro:content';
 import { Image, getImage } from 'astro:assets';
 import Base from '../../layouts/Base.astro';
 import PageHead from '../../components/PageHead.astro';
+import ProjectPager from '../../components/ProjectPager.astro';
 import { withBase } from '../../lib/url';
 import { site } from '../../data/site';
 
 export const getStaticPaths = (async () => {
-  const projects = await getCollection('projects', ({ data }) => !data.draft);
-  return projects.map((project) => ({ params: { id: project.id }, props: { project } }));
+  // Same order as the Work page, so previous/next follow it.
+  const projects = (await getCollection('projects', ({ data }) => !data.draft)).sort(
+    (a, b) => a.data.order - b.data.order,
+  );
+  return projects.map((project, i) => ({
+    params: { id: project.id },
+    props: { project, prev: projects[i - 1], next: projects[i + 1] },
+  }));
 }) satisfies GetStaticPaths;
 
-const { project } = Astro.props;
+const { project, prev, next } = Astro.props;
 const { title, summary, year, role, client, tech, cover, coverAlt, url, repo } = project.data;
 const { Content } = await render(project);
 
@@ -69,6 +76,10 @@ const schema = [
   <article class="section container prose">
     <Content />
   </article>
+
+  <div class="container more">
+    <ProjectPager prev={prev} next={next} />
+  </div>
 
   <div class="container back">
     <a class="link" href={withBase('/projects')}><span aria-hidden="true">←</span> All projects</a>
@@ -138,6 +149,10 @@ const schema = [
     background: var(--surface-3);
     padding: 2px 6px;
     border-radius: 4px;
+  }
+
+  .more {
+    padding-bottom: 32px;
   }
 
   .back {
