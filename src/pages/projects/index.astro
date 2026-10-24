@@ -3,13 +3,43 @@ import { getCollection } from 'astro:content';
 import Base from '../../layouts/Base.astro';
 import PageHead from '../../components/PageHead.astro';
 import ProjectCard from '../../components/ProjectCard.astro';
+import { withBase } from '../../lib/url';
 
 const projects = (await getCollection('projects', ({ data }) => !data.draft)).sort(
   (a, b) => a.data.order - b.data.order,
 );
+
+// Describe the page as a collection of the project pages, in display order.
+const pageUrl = new URL(Astro.url.pathname, Astro.site).href;
+const home = new URL(withBase('/'), Astro.site).href;
+const schema = [
+  {
+    '@type': 'CollectionPage',
+    '@id': `${pageUrl}#page`,
+    name: 'Work',
+    url: pageUrl,
+    isPartOf: { '@id': `${home}#website` },
+    author: { '@id': `${home}#person` },
+    mainEntity: {
+      '@type': 'ItemList',
+      numberOfItems: projects.length,
+      itemListElement: projects.map((p, i) => ({
+        '@type': 'ListItem',
+        position: i + 1,
+        name: p.data.title,
+        // Trailing slash to match each project page's canonical URL and the sitemap.
+        url: new URL(withBase(`/projects/${p.id}/`), Astro.site).href,
+      })),
+    },
+  },
+];
 ---
 
-<Base title="Work" description="Selected work by Joe Johnson: web applications, APIs and rescue projects, each one shipped and still running in production.">
+<Base
+  title="Work"
+  description="Selected work by Joe Johnson: web applications, APIs and rescue projects, each one shipped and still running in production."
+  schema={schema}
+>
   <PageHead
     label="// work"
     title="Selected work."
